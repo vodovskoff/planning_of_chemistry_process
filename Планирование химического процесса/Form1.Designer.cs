@@ -154,7 +154,7 @@ namespace Планирование_химического_процесса
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 7);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 17);
+            this.label4.Size = new System.Drawing.Size(44, 16);
             this.label4.TabIndex = 1;
             this.label4.Text = "label4";
             // 
@@ -168,6 +168,7 @@ namespace Планирование_химического_процесса
             this.Реакции.SelectedIndex = 0;
             this.Реакции.Size = new System.Drawing.Size(793, 423);
             this.Реакции.TabIndex = 0;
+            this.Реакции.Enter += new System.EventHandler(this.Реакции_Enter);
             // 
             // tabPage3
             // 
@@ -203,6 +204,7 @@ namespace Планирование_химического_процесса
             this.button7.TabIndex = 3;
             this.button7.Text = "Изменить";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // textBox5
             // 
@@ -231,6 +233,7 @@ namespace Планирование_химического_процесса
             this.button3.TabIndex = 3;
             this.button3.Text = "Добавить";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // textBox1
             // 
@@ -248,6 +251,7 @@ namespace Планирование_химического_процесса
             this.button1.TabIndex = 1;
             this.button1.Text = "Удалить выбранное вещество";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBox1
             // 
@@ -255,13 +259,6 @@ namespace Планирование_химического_процесса
             this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 29;
-            this.listBox1.Items.AddRange(new object[] {
-            "S",
-            "O2",
-            "SO2",
-            "SO3",
-            "H2O",
-            "HSO4"});
             this.listBox1.Location = new System.Drawing.Point(6, 35);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(168, 294);
@@ -301,7 +298,7 @@ namespace Планирование_химического_процесса
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(484, 312);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 17);
+            this.label1.Size = new System.Drawing.Size(85, 16);
             this.label1.TabIndex = 8;
             this.label1.Text = "S+O2 → SO2";
             // 
@@ -324,6 +321,7 @@ namespace Планирование_химического_процесса
             this.button6.TabIndex = 3;
             this.button6.Text = "Добавить";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // textBox4
             // 
@@ -361,17 +359,17 @@ namespace Планирование_химического_процесса
             this.button5.TabIndex = 1;
             this.button5.Text = "Ввести коэффициент";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // listBox4
             // 
             this.listBox4.FormattingEnabled = true;
             this.listBox4.ItemHeight = 16;
-            this.listBox4.Items.AddRange(new object[] {
-            "SO3"});
             this.listBox4.Location = new System.Drawing.Point(6, 22);
             this.listBox4.Name = "listBox4";
             this.listBox4.Size = new System.Drawing.Size(120, 100);
             this.listBox4.TabIndex = 0;
+            this.listBox4.SelectedIndexChanged += new System.EventHandler(this.listBox4_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -401,18 +399,17 @@ namespace Планирование_химического_процесса
             this.button4.TabIndex = 1;
             this.button4.Text = "Ввести коэффициент";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listBox3
             // 
             this.listBox3.FormattingEnabled = true;
             this.listBox3.ItemHeight = 16;
-            this.listBox3.Items.AddRange(new object[] {
-            "S",
-            "O2"});
             this.listBox3.Location = new System.Drawing.Point(6, 22);
             this.listBox3.Name = "listBox3";
             this.listBox3.Size = new System.Drawing.Size(120, 100);
             this.listBox3.TabIndex = 0;
+            this.listBox3.SelectedIndexChanged += new System.EventHandler(this.listBox3_SelectedIndexChanged);
             // 
             // groupBox2
             // 
@@ -436,6 +433,7 @@ namespace Планирование_химического_процесса
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.Size = new System.Drawing.Size(180, 89);
             this.checkedListBox2.TabIndex = 0;
+            this.checkedListBox2.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox2_ItemCheck);
             // 
             // groupBox1
             // 
@@ -461,6 +459,7 @@ namespace Планирование_химического_процесса
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(180, 106);
             this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // button2
@@ -478,14 +477,11 @@ namespace Планирование_химического_процесса
             this.listBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 29;
-            this.listBox2.Items.AddRange(new object[] {
-            "реакция1",
-            "реакция2",
-            "реакция3"});
             this.listBox2.Location = new System.Drawing.Point(6, 35);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(168, 294);
             this.listBox2.TabIndex = 1;
+            this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             // 
             // groupBox8
             // 
@@ -514,7 +510,7 @@ namespace Планирование_химического_процесса
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(17, 237);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(232, 17);
+            this.label3.Size = new System.Drawing.Size(228, 16);
             this.label3.TabIndex = 3;
             this.label3.Text = "Заполните результаты реакции 3";
             // 
@@ -523,7 +519,7 @@ namespace Планирование_химического_процесса
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(17, 208);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(189, 17);
+            this.label2.Size = new System.Drawing.Size(186, 16);
             this.label2.TabIndex = 2;
             this.label2.Text = "Полнота знаний нарушена!";
             // 

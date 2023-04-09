@@ -8,6 +8,7 @@ namespace Планирование_химического_процесса
 {
     static class Program
     {
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
