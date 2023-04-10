@@ -222,7 +222,6 @@ namespace Планирование_химического_процесса
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(151, 22);
             this.textBox5.TabIndex = 2;
-            this.textBox5.Text = "SO2";
             // 
             // groupBox6
             // 
@@ -251,7 +250,6 @@ namespace Планирование_химического_процесса
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(151, 22);
             this.textBox1.TabIndex = 2;
-            this.textBox1.Text = "Введите вещество";
             // 
             // button1
             // 
@@ -306,11 +304,11 @@ namespace Планирование_химического_процесса
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(484, 312);
+            this.label1.Location = new System.Drawing.Point(534, 318);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 16);
+            this.label1.Size = new System.Drawing.Size(125, 16);
             this.label1.TabIndex = 8;
-            this.label1.Text = "S+O2 → SO2";
+            this.label1.Text = "Формула реакции";
             // 
             // groupBox5
             // 
@@ -490,7 +488,7 @@ namespace Планирование_химического_процесса
             this.listBox2.ItemHeight = 29;
             this.listBox2.Location = new System.Drawing.Point(6, 35);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(168, 294);
+            this.listBox2.Size = new System.Drawing.Size(168, 236);
             this.listBox2.TabIndex = 1;
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             // 

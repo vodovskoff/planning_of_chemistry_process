@@ -118,7 +118,7 @@ namespace Планирование_химического_процесса
                 textBox1.Clear();
             }
             ClearAndFillListBox1();   
-            clearAndFillListBoxes();
+            clearAndFillCheckListBoxes();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -137,7 +137,7 @@ namespace Планирование_химического_процесса
                 textBox5.Clear();
             }
             ClearAndFillListBox1();
-            clearAndFillListBoxes();
+            clearAndFillCheckListBoxes();
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -237,10 +237,10 @@ namespace Планирование_химического_процесса
 
         private void Реакции_Enter(object sender, EventArgs e)
         {
-            clearAndFillListBoxes();
+            clearAndFillCheckListBoxes();
         }
 
-        private void clearAndFillListBoxes()
+        private void clearAndFillCheckListBoxes()
         {
             checkedListBox1.Items.Clear();
             checkedListBox2.Items.Clear();
@@ -297,7 +297,7 @@ namespace Планирование_химического_процесса
              
             }
             ClearAndFillListBox1();
-            clearAndFillListBoxes();
+            clearAndFillCheckListBoxes();
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -317,33 +317,7 @@ namespace Планирование_химического_процесса
                 // если название реакции совпадает с выбранным
                 if (reaction.reactionName == reactionName)
                 {
-                    checkedListBox1.Items.Clear();
-                    checkedListBox2.Items.Clear();
                     label1.Text = (string) reaction.ToString();
-                    listBox3.Items.Clear();
-                    listBox4.Items.Clear();
-                    // добавляем все реагенты в checkedListBox1
-                    foreach (ReactionSubstance substance in reaction.Reactants)
-                    {
-                        checkedListBox1.Items.Add(substance.Substance);
-                    }
-
-                    // добавляем все реагенты в listBox3
-                    foreach (ReactionSubstance substance in reaction.Reactants)
-                    {
-                        listBox3.Items.Add(substance.Substance);
-                    }
-                    foreach (ReactionSubstance substance in reaction.Products)
-                    {
-                        checkedListBox2.Items.Add(substance.Substance);
-                    }
-
-                    // добавляем все реагенты в listBox3
-                    foreach (ReactionSubstance substance in reaction.Products)
-                    {
-                        listBox4.Items.Add(substance.Substance);
-                    }
-
                 }
             }
         }
@@ -500,7 +474,21 @@ namespace Планирование_химического_процесса
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (listBox2.SelectedItem != null)
+            {
+                // Получаем выбранную реакцию
+                string selectedReactionName = listBox2.SelectedItem.ToString();
+                ChemicalReaction selectedReaction = reactions.FirstOrDefault(r => r.reactionName == selectedReactionName);
+                // Удаляем выбранную реакцию из списка реакций
+                reactions.Remove(selectedReaction);
 
+                // Обновляем содержимое listBox2
+                listBox2.Items.Remove(selectedReaction);
+
+                ClearAndFillListBox2();
+                ChemicalReactionStorage re = new ChemicalReactionStorage(reactions);
+                re.Save(); 
+            }
         }
     }
 }
