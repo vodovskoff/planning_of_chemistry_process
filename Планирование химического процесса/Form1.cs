@@ -263,7 +263,8 @@ namespace Планирование_химического_процесса
             listBox1.Items.Clear();
             listBox5.Items.Clear();
             listBox6.Items.Clear();
-
+            ChemicalSubstanceStorage storage = new ChemicalSubstanceStorage(substances);
+            storage.Save();
             foreach (ChemicalSubstance substance in substances)
             {
                 listBox1.Items.Add(substance.Substance);
@@ -485,6 +486,14 @@ namespace Планирование_химического_процесса
 
             // удаляем вещество из списка inputProducts
             inputProducts.RemoveAll(p => p.Substance == substanceName);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ChemicalSubstanceStorage storage = new ChemicalSubstanceStorage(substances);
+            substances = storage.Load("chemical_substances.json");
+            ClearAndFillListBox1();
+            ClearAndFillListBox2();
         }
     }
 }
