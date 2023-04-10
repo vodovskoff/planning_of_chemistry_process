@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChemicalReaction.cs" />
+    <Compile Include="ChemicalReactionStorage.cs" />
     <Compile Include="ChemicalSubstance.cs" />
     <Compile Include="ChemicalSubstanceStorage.cs" />
     <Compile Include="Form1.cs">

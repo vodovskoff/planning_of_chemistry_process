@@ -221,6 +221,10 @@ namespace Планирование_химического_процесса
             }
 
             reactions.Add(new ChemicalReaction { reactionName = reactionName, Reactants = reactants, Products = products });
+
+            ChemicalReactionStorage re = new ChemicalReactionStorage(reactions);
+            re.Save();
+            
             ClearAndFillListBox2();
             textBox4.Clear();
             textBox2.Clear();
@@ -251,7 +255,6 @@ namespace Планирование_химического_процесса
         private void ClearAndFillListBox2()
         {
             listBox2.Items.Clear();
-
             foreach (ChemicalReaction reaction in reactions)
             {
                 listBox2.Items.Add(reaction.reactionName);
@@ -358,11 +361,7 @@ namespace Планирование_химического_процесса
 
             // получаем коэффициент из textBox2
             int coefficient = int.Parse(textBox2.Text);
-            if (tempReactatns.Any(x => x.Substance.Substance == substanceName))
-            {
-
-            }
-            else
+            if (!tempReactatns.Any(x => x.Substance.Substance == substanceName))
             {
                 // создаем объект ReactionSubstance
                 ReactionSubstance reactionSubstance = new ReactionSubstance(substance, substance.MolarMass, coefficient);
@@ -491,9 +490,16 @@ namespace Планирование_химического_процесса
         private void Form1_Load(object sender, EventArgs e)
         {
             ChemicalSubstanceStorage storage = new ChemicalSubstanceStorage(substances);
-            substances = storage.Load("chemical_substances.json");
+            ChemicalReactionStorage re = new ChemicalReactionStorage(reactions);
+            reactions = re.Load();
+            substances = storage.Load();
             ClearAndFillListBox1();
             ClearAndFillListBox2();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

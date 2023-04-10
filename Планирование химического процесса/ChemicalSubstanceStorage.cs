@@ -25,11 +25,11 @@ namespace Планирование_химического_процесса
             File.WriteAllText(FileName, json);
         }
 
-        public List<ChemicalSubstance> Load(string fileName)
+        public List<ChemicalSubstance> Load()
         {
-            if (File.Exists(fileName))
+            if (File.Exists(FileName))
             {
-                string json = File.ReadAllText(fileName);
+                string json = File.ReadAllText(FileName);
                 List<ChemicalSubstance> substances = JsonConvert.DeserializeObject<List<ChemicalSubstance>>(json);
                 return substances;
             }
