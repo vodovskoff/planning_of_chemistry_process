@@ -18,6 +18,8 @@ namespace Планирование_химического_процесса
         private List<ChemicalReaction> reactions = new List<ChemicalReaction>();
         private List<ReactionSubstance> tempReactatns = new List<ReactionSubstance>();
         private List<ReactionSubstance> tempProducts = new List<ReactionSubstance>();
+        private List<ChemicalSubstance> inputProducts = new List<ChemicalSubstance>();
+        private List<ChemicalSubstance> inputReactants = new List<ChemicalSubstance>();
 
         public Form1()
         {
@@ -44,6 +46,46 @@ namespace Планирование_химического_процесса
 
         private void button8_Click(object sender, EventArgs e)
         {
+            // проверяем, что выбрано название вещества
+            if (listBox5.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите название вещества!");
+                return;
+            }
+
+            string substanceName = listBox5.SelectedItem.ToString();
+            double molarMass;
+            double mass;
+
+            // проверяем, что введены корректные значения молярной массы и массы
+            if (!double.TryParse(textBox6.Text, out molarMass) || molarMass <= 0)
+            {
+                MessageBox.Show("Введите корректное значение молярной массы!");
+                return;
+            }
+            if (!double.TryParse(textBox7.Text, out mass) || mass <= 0)
+            {
+                MessageBox.Show("Введите корректное значение массы!");
+                return;
+            }
+
+            // проверяем, что вещество с таким названием еще не добавлено
+            if (inputReactants.Any(p => p.Substance == substanceName))
+            {
+                MessageBox.Show("Вещество с таким названием уже добавлено!");
+                return;
+            }
+
+            // создаем новый объект ReactionSubstance
+            ChemicalSubstance newSubstance = substances.Find(x => x.Substance == substanceName);
+            newSubstance.MolarMass = molarMass;
+            newSubstance.Mass = mass;
+
+            // добавляем его в список inputProducts
+            inputReactants.Add(newSubstance);
+
+            // добавляем строку в dataGridView1
+            dataGridView1.Rows.Add(substanceName, molarMass, mass);
         }
 
         private void groupBox13_Enter(object sender, EventArgs e)
@@ -219,10 +261,14 @@ namespace Планирование_химического_процесса
         private void ClearAndFillListBox1()
         {
             listBox1.Items.Clear();
+            listBox5.Items.Clear();
+            listBox6.Items.Clear();
 
             foreach (ChemicalSubstance substance in substances)
             {
                 listBox1.Items.Add(substance.Substance);
+                listBox5.Items.Add(substance.Substance);
+                listBox6.Items.Add(substance.Substance);
             }
         }
 
@@ -349,6 +395,96 @@ namespace Планирование_химического_процесса
         private void listBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (listBox6.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите название вещества!");
+                return;
+            }
+
+            string substanceName = listBox6.SelectedItem.ToString();
+            double molarMass;
+            double mass;
+
+            // проверяем, что введены корректные значения молярной массы и массы
+            if (!double.TryParse(textBox9.Text, out molarMass) || molarMass <= 0)
+            {
+                MessageBox.Show("Введите корректное значение молярной массы!");
+                return;
+            }
+            if (!double.TryParse(textBox8.Text, out mass) || mass <= 0)
+            {
+                MessageBox.Show("Введите корректное значение массы!");
+                return;
+            }
+
+            // проверяем, что вещество с таким названием еще не добавлено
+            if (inputProducts.Any(p => p.Substance == substanceName))
+            {
+                MessageBox.Show("Вещество с таким названием уже добавлено!");
+                return;
+            }
+
+            // создаем новый объект ReactionSubstance
+            ChemicalSubstance newSubstance = substances.Find(x => x.Substance == substanceName);
+            newSubstance.MolarMass = molarMass;
+            newSubstance.Mass = mass;
+
+            // добавляем его в список inputProducts
+            inputProducts.Add(newSubstance);
+
+            // добавляем строку в dataGridView1
+            dataGridView2.Rows.Add(substanceName, molarMass, mass);
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите строку для удаления!");
+                return;
+            }
+
+            // получаем индекс выбранной строки
+            int rowIndex = dataGridView1.SelectedRows[0].Index;
+
+            // получаем название вещества из выбранной строки
+            string substanceName = dataGridView1.Rows[rowIndex].Cells[0].Value.ToString();
+
+            // удаляем строку из dataGridView1
+            dataGridView1.Rows.RemoveAt(rowIndex);
+
+            // удаляем вещество из списка inputProducts
+            inputReactants.RemoveAll(p => p.Substance == substanceName);
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if (dataGridView2.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите строку для удаления!");
+                return;
+            }
+
+            // получаем индекс выбранной строки
+            int rowIndex = dataGridView2.SelectedRows[0].Index;
+
+            // получаем название вещества из выбранной строки
+            string substanceName = dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
+
+            // удаляем строку из dataGridView1
+            dataGridView2.Rows.RemoveAt(rowIndex);
+
+            // удаляем вещество из списка inputProducts
+            inputProducts.RemoveAll(p => p.Substance == substanceName);
         }
     }
 }

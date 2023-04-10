@@ -10,6 +10,7 @@ namespace Планирование_химического_процесса
     {
         public string Substance { get; set; }
         public double? MolarMass { get; set; }
+        public double? Mass { get; set; }
 
         public ChemicalSubstance(string substance, double? molarMass)
         {
