@@ -319,6 +319,7 @@ namespace Планирование_химического_процесса
                 {
                     checkedListBox1.Items.Clear();
                     checkedListBox2.Items.Clear();
+                    label1.Text = (string) reaction.ToString();
                     listBox3.Items.Clear();
                     listBox4.Items.Clear();
                     // добавляем все реагенты в checkedListBox1

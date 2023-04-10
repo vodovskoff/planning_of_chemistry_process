@@ -11,5 +11,18 @@ namespace Планирование_химического_процесса
         public String reactionName {  get; set; }
         public HashSet<ReactionSubstance> Reactants { get; set; }
         public HashSet<ReactionSubstance> Products { get; set; }
+
+        public override string ToString()
+        {
+            string reactantsString = string.Join(" + ", Reactants.Select(rs =>
+                rs.Coefficient == 1 ? rs.Substance.Substance :
+                $"{rs.Coefficient}*{rs.Substance.Substance}"));
+
+            string productsString = string.Join(" + ", Products.Select(rs =>
+                rs.Coefficient == 1 ? rs.Substance.Substance :
+                $"{rs.Coefficient}*{rs.Substance.Substance}"));
+
+            return $"{reactantsString} → {productsString}";
+        }
     }
 }
