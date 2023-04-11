@@ -705,6 +705,7 @@ namespace Планирование_химического_процесса
             this.listBox5.Name = "listBox5";
             this.listBox5.Size = new System.Drawing.Size(152, 236);
             this.listBox5.TabIndex = 1;
+            this.listBox5.SelectedIndexChanged += new System.EventHandler(this.listBox5_SelectedIndexChanged);
             // 
             // tabPage6
             // 

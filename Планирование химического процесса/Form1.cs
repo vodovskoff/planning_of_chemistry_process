@@ -303,8 +303,6 @@ namespace Планирование_химического_процесса
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             // очищаем checkedListBox1 и listBox3
-            checkedListBox1.Items.Clear();
-            listBox3.Items.Clear();
             tempReactatns.Clear();
             tempProducts.Clear();
 
@@ -489,6 +487,11 @@ namespace Планирование_химического_процесса
                 ChemicalReactionStorage re = new ChemicalReactionStorage(reactions);
                 re.Save(); 
             }
+        }
+
+        private void listBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
