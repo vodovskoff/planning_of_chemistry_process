@@ -132,6 +132,9 @@ namespace Планирование_химического_процесса
                     int index = listBox1.SelectedIndex;
                     substances[index].Substance = newSubstance;
                     listBox1.Items[index] = newSubstance;
+                } else
+                {
+                    MessageBox.Show($"{newSubstance} Уже существует");
                 }
 
                 textBox5.Clear();
@@ -278,12 +281,19 @@ namespace Планирование_химического_процесса
 
         private void RemoveSubstanceFromList(string substanceName)
         {
-            foreach (ChemicalSubstance substance in substances)
+            for (int i = substances.Count - 1; i >= 0; i--)
             {
-                if (substance.Substance == substanceName)
+                if (substances[i].Substance == substanceName)
                 {
-                    substances.Remove(substance);
-                    break;
+                    if (reactions.Any(r => r.Reactants.Any(rs => rs.Substance.Substance == substanceName)
+                      || r.Products.Any(rp => rp.Substance.Substance == substanceName)))
+                    {
+                        MessageBox.Show($"{substanceName} используется в реакции");
+                    }
+                    else
+                    {
+                        substances.RemoveAt(i);
+                    }
                 }
             }
         }
@@ -294,7 +304,6 @@ namespace Планирование_химического_процесса
             {
                 string selectedSubstance = listBox1.SelectedItem.ToString();
                 RemoveSubstanceFromList(selectedSubstance);
-             
             }
             ClearAndFillListBox1();
             clearAndFillCheckListBoxes();
@@ -302,7 +311,7 @@ namespace Планирование_химического_процесса
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // очищаем checkedListBox1 и listBox3
+            // очищаем checkedListBox1 и listBox3aa
             tempReactatns.Clear();
             tempProducts.Clear();
 
