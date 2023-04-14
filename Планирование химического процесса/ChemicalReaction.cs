@@ -11,7 +11,7 @@ namespace Планирование_химического_процесса
         public String reactionName {  get; set; }
         public HashSet<ReactionSubstance> Reactants { get; set; }
         public HashSet<ReactionSubstance> Products { get; set; }
-
+        public bool IsExecuted { get; set; }
         public override string ToString()
         {
             string reactantsString = string.Join(" + ", Reactants.Select(rs =>
@@ -23,6 +23,17 @@ namespace Планирование_химического_процесса
                 $"{rs.Coefficient}*{rs.Substance.Substance}"));
 
             return $"{reactantsString} → {productsString}";
+        }
+
+        public bool isAbleToExecute(HashSet<ReactionSubstance> visitedSubstances)
+        {
+            foreach (var reactant in Reactants)
+            {
+                if (!(visitedSubstances.Any(rs => rs.Substance.Substance == reactant.Substance.Substance))) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

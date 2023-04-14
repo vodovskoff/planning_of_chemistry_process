@@ -678,7 +678,7 @@ namespace Планирование_химического_процесса
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(152, 22);
             this.textBox7.TabIndex = 3;
-            this.textBox7.Text = "Масса";
+            this.textBox7.Text = "1";
             // 
             // textBox6
             // 
@@ -686,7 +686,7 @@ namespace Планирование_химического_процесса
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(152, 22);
             this.textBox6.TabIndex = 2;
-            this.textBox6.Text = "Молярная масса";
+            this.textBox6.Text = "1";
             this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // listBox5
@@ -824,7 +824,7 @@ namespace Планирование_химического_процесса
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(152, 22);
             this.textBox8.TabIndex = 3;
-            this.textBox8.Text = "Масса";
+            this.textBox8.Text = "1";
             this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
             // 
             // textBox9
@@ -833,7 +833,7 @@ namespace Планирование_химического_процесса
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(152, 22);
             this.textBox9.TabIndex = 2;
-            this.textBox9.Text = "Молярная масса";
+            this.textBox9.Text = "1";
             // 
             // listBox6
             // 
@@ -910,6 +910,7 @@ namespace Планирование_химического_процесса
             this.button11.TabIndex = 0;
             this.button11.Text = "Создать план химического процесса";
             this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // Form1
             // 

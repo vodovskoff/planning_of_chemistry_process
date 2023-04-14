@@ -18,8 +18,8 @@ namespace Планирование_химического_процесса
         private List<ChemicalReaction> reactions = new List<ChemicalReaction>();
         private List<ReactionSubstance> tempReactatns = new List<ReactionSubstance>();
         private List<ReactionSubstance> tempProducts = new List<ReactionSubstance>();
-        private List<ChemicalSubstance> inputProducts = new List<ChemicalSubstance>();
-        private List<ChemicalSubstance> inputReactants = new List<ChemicalSubstance>();
+        private List<ReactionSubstance> inputProducts = new List<ReactionSubstance>();
+        private List<ReactionSubstance> inputReactants = new List<ReactionSubstance>();
 
         public Form1()
         {
@@ -70,7 +70,7 @@ namespace Планирование_химического_процесса
             }
 
             // проверяем, что вещество с таким названием еще не добавлено
-            if (inputReactants.Any(p => p.Substance == substanceName))
+            if (inputReactants.Any(p => p.Substance.Substance == substanceName))
             {
                 MessageBox.Show("Вещество с таким названием уже добавлено!");
                 return;
@@ -82,7 +82,7 @@ namespace Планирование_химического_процесса
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
-            inputReactants.Add(newSubstance);
+            inputReactants.Add(new ReactionSubstance(newSubstance, molarMass, 1));
 
             // добавляем строку в dataGridView1
             dataGridView1.Rows.Add(substanceName, molarMass, mass);
@@ -409,7 +409,7 @@ namespace Планирование_химического_процесса
             }
 
             // проверяем, что вещество с таким названием еще не добавлено
-            if (inputProducts.Any(p => p.Substance == substanceName))
+            if (inputProducts.Any(p => p.Substance.Substance == substanceName))
             {
                 MessageBox.Show("Вещество с таким названием уже добавлено!");
                 return;
@@ -421,7 +421,7 @@ namespace Планирование_химического_процесса
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
-            inputProducts.Add(newSubstance);
+            inputProducts.Add(new ReactionSubstance(newSubstance, molarMass, 1));
 
             // добавляем строку в dataGridView1
             dataGridView2.Rows.Add(substanceName, molarMass, mass);
@@ -445,7 +445,7 @@ namespace Планирование_химического_процесса
             dataGridView1.Rows.RemoveAt(rowIndex);
 
             // удаляем вещество из списка inputProducts
-            inputReactants.RemoveAll(p => p.Substance == substanceName);
+            inputReactants.RemoveAll(p => p.Substance.Substance == substanceName);
         }
 
         private void button13_Click(object sender, EventArgs e)
@@ -466,7 +466,7 @@ namespace Планирование_химического_процесса
             dataGridView2.Rows.RemoveAt(rowIndex);
 
             // удаляем вещество из списка inputProducts
-            inputProducts.RemoveAll(p => p.Substance == substanceName);
+            inputProducts.RemoveAll(p => p.Substance.Substance == substanceName);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -501,6 +501,12 @@ namespace Планирование_химического_процесса
         private void listBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            var ChemicalPathFinder = new ChemicalPathFinder(reactions);
+            Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
         }
     }
 }

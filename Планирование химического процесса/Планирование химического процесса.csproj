@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChemicalPathFinder.cs" />
     <Compile Include="ChemicalReaction.cs" />
     <Compile Include="ChemicalReactionStorage.cs" />
     <Compile Include="ChemicalSubstance.cs" />
