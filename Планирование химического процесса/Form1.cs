@@ -506,7 +506,26 @@ namespace Планирование_химического_процесса
         private void button11_Click(object sender, EventArgs e)
         {
             var ChemicalPathFinder = new ChemicalPathFinder(reactions);
-            Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
+            var Solution = ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet());
+            dataGridView3.Rows.Clear();
+            dataGridView4.Rows.Clear();
+            for (int i = 0; i<Solution.Reactions.Count; i++)
+            {
+                dataGridView4.Rows.Add(i+1, Solution.Reactions[i].reactionName, Solution.Reactions[i].ToString());
+            }
+            for (int i = 0; i < Solution.Substances.Count; i++)
+            {
+                dataGridView3.Rows.Add(i + 1, 
+                    string.Join(", ",
+                    Solution.Substances[i].Select(rs=>rs.isExecuting ? $"{rs.Substance.Substance}" : "")));
+            }
+            //Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
+            //Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

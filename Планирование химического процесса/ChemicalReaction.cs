@@ -11,6 +11,8 @@ namespace Планирование_химического_процесса
         public String reactionName {  get; set; }
         public HashSet<ReactionSubstance> Reactants { get; set; }
         public HashSet<ReactionSubstance> Products { get; set; }
+        public HashSet<ReactionSubstance> NewSubstances { get; set; }
+
         public bool IsExecuted { get; set; }
         public override string ToString()
         {

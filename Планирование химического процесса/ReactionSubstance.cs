@@ -11,12 +11,13 @@ namespace Планирование_химического_процесса
         public ChemicalSubstance Substance { get; set; }
         public double? MolarMass { get; set; }
         public int Coefficient { get; set; }
-
+        public bool isExecuting { get; set; }
         public ReactionSubstance(ChemicalSubstance substance, double? molarMass, int coefficient)
         {
             Substance = substance;
             MolarMass = molarMass;
             Coefficient = coefficient;
+            isExecuting = true;
         }
     }
 }
