@@ -28,8 +28,9 @@ namespace Планирование_химического_процесса
             foreach (var startSubstance in startSubstances)
             {
                 visitedSubstances.Add(startSubstance);
+                paths.Add(startSubstance, new List<ChemicalReaction>());
             }
-            
+
             foreach (var currentReaction in reactions)
             {
                 if (currentReaction.isAbleToExecute(visitedSubstances) && !currentReaction.IsExecuted)
@@ -49,7 +50,11 @@ namespace Планирование_химического_процесса
                         paths.Add(product, new List<ChemicalReaction>());
                         foreach (var reagent in currentReaction.Reactants) 
                         {
-                            paths[product].AddRange(paths[product]);
+                            var previousPath = paths.Where(item => item.Key.Substance.Substance == reagent.Substance.Substance).Select(item =>item.Value);
+                            foreach (var path in previousPath)
+                            {
+                                paths[product].AddRange(path);
+                            }
                         }
                         paths[product].Add(currentReaction);
                     }
