@@ -15,6 +15,10 @@ namespace Планирование_химического_процесса
         {
             Substances = new List<HashSet<ReactionSubstance>>();
             Substances.Add(startSubstances);
+            if (chemicalReactions == null)
+            {
+                throw new Exception();
+            }
             for (int i = 0; i < chemicalReactions.Count; i++)
             {
                 var tempSet = new HashSet<ReactionSubstance>();
