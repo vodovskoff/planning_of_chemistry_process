@@ -68,10 +68,6 @@ namespace Планирование_химического_процесса
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.button12 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.button8 = new System.Windows.Forms.Button();
             this.listBox5 = new System.Windows.Forms.ListBox();
@@ -94,8 +90,6 @@ namespace Планирование_химического_процесса
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.textBox11 = new System.Windows.Forms.TextBox();
-            this.ColumnProcessNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnSubstances = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.button11 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -106,6 +100,9 @@ namespace Планирование_химического_процесса
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.label3 = new System.Windows.Forms.Label();
             this.treeView2 = new System.Windows.Forms.TreeView();
+            this.ColumnProcessNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnSubstances = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Реакции.SuspendLayout();
@@ -551,44 +548,13 @@ namespace Планирование_химического_процесса
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
+            this.Column1});
             this.dataGridView1.Location = new System.Drawing.Point(6, 44);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(550, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(432, 150);
             this.dataGridView1.TabIndex = 1;
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Химическое вещество";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 125;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Молярная масса";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 125;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Масса";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 125;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "";
-            this.Column4.MinimumWidth = 6;
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 125;
             // 
             // groupBox10
             // 
@@ -784,11 +750,11 @@ namespace Планирование_химического_процесса
             this.ColumnProcessNum1,
             this.ColumnReactionName,
             this.ColumnReactionFormula});
-            this.dataGridView4.Location = new System.Drawing.Point(12, 63);
+            this.dataGridView4.Location = new System.Drawing.Point(6, 40);
             this.dataGridView4.Name = "dataGridView4";
             this.dataGridView4.RowHeadersWidth = 51;
             this.dataGridView4.RowTemplate.Height = 24;
-            this.dataGridView4.Size = new System.Drawing.Size(468, 150);
+            this.dataGridView4.Size = new System.Drawing.Size(474, 267);
             this.dataGridView4.TabIndex = 0;
             // 
             // groupBox14
@@ -796,7 +762,7 @@ namespace Планирование_химического_процесса
             this.groupBox14.Controls.Add(this.dataGridView3);
             this.groupBox14.Location = new System.Drawing.Point(10, 16);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(446, 317);
+            this.groupBox14.Size = new System.Drawing.Size(480, 339);
             this.groupBox14.TabIndex = 1;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Процесс";
@@ -811,7 +777,7 @@ namespace Планирование_химического_процесса
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersWidth = 51;
             this.dataGridView3.RowTemplate.Height = 24;
-            this.dataGridView3.Size = new System.Drawing.Size(403, 150);
+            this.dataGridView3.Size = new System.Drawing.Size(468, 267);
             this.dataGridView3.TabIndex = 0;
             this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick);
             // 
@@ -828,20 +794,6 @@ namespace Планирование_химического_процесса
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(151, 22);
             this.textBox11.TabIndex = 4;
-            // 
-            // ColumnProcessNum
-            // 
-            this.ColumnProcessNum.HeaderText = "Шаг процесса";
-            this.ColumnProcessNum.MinimumWidth = 6;
-            this.ColumnProcessNum.Name = "ColumnProcessNum";
-            this.ColumnProcessNum.Width = 90;
-            // 
-            // ColumnSubstances
-            // 
-            this.ColumnSubstances.HeaderText = "Вещества";
-            this.ColumnSubstances.MinimumWidth = 6;
-            this.ColumnSubstances.Name = "ColumnSubstances";
-            this.ColumnSubstances.Width = 260;
             // 
             // tabPage7
             // 
@@ -924,6 +876,27 @@ namespace Планирование_химического_процесса
             this.treeView2.Name = "treeView2";
             this.treeView2.Size = new System.Drawing.Size(274, 204);
             this.treeView2.TabIndex = 3;
+            // 
+            // ColumnProcessNum
+            // 
+            this.ColumnProcessNum.HeaderText = "Шаг процесса";
+            this.ColumnProcessNum.MinimumWidth = 6;
+            this.ColumnProcessNum.Name = "ColumnProcessNum";
+            this.ColumnProcessNum.Width = 90;
+            // 
+            // ColumnSubstances
+            // 
+            this.ColumnSubstances.HeaderText = "Вещества";
+            this.ColumnSubstances.MinimumWidth = 6;
+            this.ColumnSubstances.Name = "ColumnSubstances";
+            this.ColumnSubstances.Width = 330;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Химическое вещество";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 380;
             // 
             // Form1
             // 
@@ -1027,10 +1000,6 @@ namespace Планирование_химического_процесса
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -1042,8 +1011,6 @@ namespace Планирование_химического_процесса
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProcessNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSubstances;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Label label4;
@@ -1054,6 +1021,9 @@ namespace Планирование_химического_процесса
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.TreeView treeView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProcessNum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSubstances;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
     }
 }
 
