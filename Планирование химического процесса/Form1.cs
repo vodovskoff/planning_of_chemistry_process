@@ -249,16 +249,22 @@ namespace Планирование_химического_процесса
         private void Реакции_Enter(object sender, EventArgs e)
         {
             treeView1.Nodes.Clear();
+            var isFull = checkIsDataFull();
+            clearAndFillCheckListBoxes();
+        }
+
+        private bool checkIsDataFull()
+        {
             var isAllOk = true;
             // Получить список названий реакций
             List<string> reactionNames = new List<string>();
             foreach (ChemicalReaction reaction in reactions)
             {
-                if (IsDataFullChecker.CheckReactions(reaction)!="ok")
+                if (IsDataFullChecker.CheckReactions(reaction) != "ok")
                 {
                     isAllOk = false;
                 }
-               reactionNames.Add(reaction.reactionName+": "+IsDataFullChecker.CheckReactions(reaction));
+                reactionNames.Add(reaction.reactionName + ": " + IsDataFullChecker.CheckReactions(reaction));
             }
 
             // Добавить каждое название в TreeView в качестве корневого узла
@@ -289,11 +295,12 @@ namespace Планирование_химического_процесса
             if (isAllOk)
             {
                 label3.Text = "Полнота не нарушена!";
-            } else
+            }
+            else
             {
                 label3.Text = "Полнота нарушена!";
             }
-            clearAndFillCheckListBoxes();
+            return isAllOk;
         }
 
         private void clearAndFillCheckListBoxes()
