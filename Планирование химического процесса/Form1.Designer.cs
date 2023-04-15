@@ -29,7 +29,6 @@ namespace Планирование_химического_процесса
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.Реакции = new System.Windows.Forms.TabControl();
@@ -98,16 +97,15 @@ namespace Планирование_химического_процесса
             this.ColumnProcessNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSubstances = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.button11 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.ColumnProcessNum1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnReactionName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnReactionFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.treeView2 = new System.Windows.Forms.TreeView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Реакции.SuspendLayout();
@@ -136,8 +134,6 @@ namespace Планирование_химического_процесса
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.tabPage7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -849,54 +845,15 @@ namespace Планирование_химического_процесса
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.treeView2);
             this.tabPage7.Controls.Add(this.label3);
-            this.tabPage7.Controls.Add(this.label2);
-            this.tabPage7.Controls.Add(this.pictureBox4);
-            this.tabPage7.Controls.Add(this.pictureBox3);
+            this.tabPage7.Controls.Add(this.treeView1);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Size = new System.Drawing.Size(785, 394);
             this.tabPage7.TabIndex = 2;
             this.tabPage7.Text = "Проверка полноты знаний";
             this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 208);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(186, 16);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Полнота знаний нарушена!";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 237);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(228, 16);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Заполните результаты реакции 3";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(17, 16);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(232, 169);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 0;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(255, 16);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(232, 169);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox4.TabIndex = 1;
-            this.pictureBox4.TabStop = false;
             // 
             // button11
             // 
@@ -945,6 +902,29 @@ namespace Планирование_химического_процесса
             this.ColumnReactionFormula.Name = "ColumnReactionFormula";
             this.ColumnReactionFormula.Width = 250;
             // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(23, 63);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(274, 204);
+            this.treeView1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "label3";
+            // 
+            // treeView2
+            // 
+            this.treeView2.Location = new System.Drawing.Point(408, 63);
+            this.treeView2.Name = "treeView2";
+            this.treeView2.Size = new System.Drawing.Size(274, 204);
+            this.treeView2.TabIndex = 3;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -991,8 +971,6 @@ namespace Планирование_химического_процесса
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1067,16 +1045,15 @@ namespace Планирование_химического_процесса
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProcessNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnSubstances;
         private System.Windows.Forms.TabPage tabPage7;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnProcessNum1;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReactionName;
         private System.Windows.Forms.DataGridViewTextBoxColumn ColumnReactionFormula;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView2;
     }
 }
 

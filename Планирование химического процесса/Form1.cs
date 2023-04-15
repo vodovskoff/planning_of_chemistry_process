@@ -248,6 +248,51 @@ namespace Планирование_химического_процесса
 
         private void Реакции_Enter(object sender, EventArgs e)
         {
+            treeView1.Nodes.Clear();
+            var isAllOk = true;
+            // Получить список названий реакций
+            List<string> reactionNames = new List<string>();
+            foreach (ChemicalReaction reaction in reactions)
+            {
+                if (IsDataFullChecker.CheckReactions(reaction)!="ok")
+                {
+                    isAllOk = false;
+                }
+               reactionNames.Add(reaction.reactionName+": "+IsDataFullChecker.CheckReactions(reaction));
+            }
+
+            // Добавить каждое название в TreeView в качестве корневого узла
+            foreach (string reactionName in reactionNames)
+            {
+                TreeNode rootNode = new TreeNode(reactionName);
+                treeView1.Nodes.Add(rootNode);
+            }
+
+            List<string> substancesStr = new List<string>();
+            foreach (var sub in substances)
+            {
+                if (IsDataFullChecker.CheckChemicalSubstance(sub) != "ok")
+                {
+                    isAllOk = false;
+                }
+                substancesStr.Add(sub.SubstanceName + ": " + IsDataFullChecker.CheckChemicalSubstance(sub));
+            }
+
+            // Добавить каждое название в TreeView в качестве корневого узла
+            foreach (string substance in substancesStr)
+            {
+                TreeNode rootNode = new TreeNode(substance);
+                treeView2.Nodes.Add(rootNode);
+            }
+
+
+            if (isAllOk)
+            {
+                label3.Text = "Полнота не нарушена!";
+            } else
+            {
+                label3.Text = "Полнота нарушена!";
+            }
             clearAndFillCheckListBoxes();
         }
 
