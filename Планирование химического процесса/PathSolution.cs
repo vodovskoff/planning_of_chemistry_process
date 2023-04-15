@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Планирование_химического_процесса
 {
@@ -10,51 +11,133 @@ namespace Планирование_химического_процесса
     {
         public List<HashSet<ReactionSubstance>> Substances { get; set; }
         public List<ChemicalReaction> Reactions { get; set; }
+        public List<Dictionary<String, double?>> ProductMasses = new List<Dictionary<String, double?>>();
+        public List<Dictionary<String, double?>> ReactantMasses = new List<Dictionary<String, double?>>();
+        public List<Dictionary<String, double?>> ProductAmountOfSubstance = new List<Dictionary<String, double?>>();
+        public List<Dictionary<String, double?>> ReactantAmountOfSubstance = new List<Dictionary<String, double?>>();
 
-        public PathSolution(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
+        public PathSolution(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances, List<ChemicalSubstance> allSubstances)
         {
-            Substances = new List<HashSet<ReactionSubstance>>();
-            Substances.Add(startSubstances);
-            if (chemicalReactions == null)
+            FillSubstances(chemicalReactions, startSubstances, targetSubstances);
+            Reactions = chemicalReactions;
+            InitializeDeicts(startSubstances, allSubstances);
+            for (int i = Reactions.Count - 1; i >= 0; i--) //по всем реакциям начиная от последней
             {
-                throw new Exception();
-            }
-            for (int i = 0; i < chemicalReactions.Count; i++)
-            {
-                var tempSet = new HashSet<ReactionSubstance>();
-                tempSet.UnionWith(Substances[i]);
-                tempSet.UnionWith(chemicalReactions[i].NewSubstances);
-                Substances.Add(tempSet);
-            }
-            //Убрать те, которые полностью прореагировали и дальше не нужны
-            for (int i = 0; i < Substances.Count; i++) //По всем этапам
-            {
-                foreach (var sub in Substances[i]) //по всем веществам этапа
+                foreach (var subToCountMass in Reactions[i].Products)//По всем продуктам в текущей реакции
                 {
-                    bool isFound = false; ;
-                    for (int j=i+1; j < chemicalReactions.Count-1; j++)//по следующим реакциям
+                    if (targetSubstances.Any(item => item.Substance.SubstanceName == subToCountMass.Substance.SubstanceName))
                     {
-                        if (chemicalReactions[j].Reactants.Any(item=>item.Substance.Substance==sub.Substance.Substance))
+                        var matched = targetSubstances.Where(item => item.Substance.SubstanceName.Equals(subToCountMass.Substance.SubstanceName)).ToList()[0];
+
+                        ProductMasses[i + 1][subToCountMass.Substance.SubstanceName] += matched.Substance.Mass;
+                        ProductAmountOfSubstance[i + 1][subToCountMass.Substance.SubstanceName] += ProductMasses[i + 1][subToCountMass.Substance.SubstanceName] / subToCountMass.Substance.MolarMass;
+                    }
+                }
+                if (ProductAmountOfSubstance[i + 1].Count() > 0)
+                {
+                    var SubstanceWithMaxAmount = ProductAmountOfSubstance[i + 1].First();
+
+                    foreach (var productAmountOfSubstance in ProductAmountOfSubstance[i + 1])
+                    {
+                        if (productAmountOfSubstance.Value > SubstanceWithMaxAmount.Value)
                         {
-                            isFound = true;
+                            SubstanceWithMaxAmount = productAmountOfSubstance;
                         }
                     }
-                    if (!isFound)
+
+                    double? sumMassProduct = 0;
+                    double? sumReactantAmount = 0;
+
+                    //рассчитать количества вещества остальных продуктов
+                    foreach (var product in Reactions[i].Products)
                     {
-                        for (int k=i+1;k<Substances.Count; k++)
+                        if (product.Substance.SubstanceName != SubstanceWithMaxAmount.Key && Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)))
                         {
-                            foreach (var  item in Substances[k].ToList())
+
+                            var realSubWithMaxAmount = Reactions[i].Products.Where(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)).ToList()[0];
+                            ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName] += SubstanceWithMaxAmount.Value * (product.Coefficient / realSubWithMaxAmount.Coefficient);
+                            ProductMasses[i + 1][product.Substance.SubstanceName] += ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName].Value * product.Substance.MolarMass;
+
+                        } else
+                        {
+                            if (Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)))
                             {
-                                if (item.Substance.Substance== sub.Substance.Substance && !targetSubstances.Any(target=>target.Substance.Substance==item.Substance.Substance))
-                                {
-                                    Substances[k].Remove(item);
-                                }
+                                ProductMasses[i + 1][product.Substance.SubstanceName] += ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName].Value * product.Substance.MolarMass;
                             }
+                        }
+                    }
+                    double sumOfReactantsCoeffs = 0.0;
+                    foreach (var reactant in Reactions[i].Reactants)
+                    {
+                        sumReactantAmount += reactant.Coefficient * reactant.MolarMass;
+                        sumOfReactantsCoeffs += reactant.Coefficient;
+                    }
+                    foreach(var t in ProductMasses[i+1])
+                    {
+                        sumMassProduct += t.Value;
+                    }
+                    //рассчитать количетсва вещества реагентов
+                    foreach (var reactant in Reactions[i].Reactants)
+                    {
+
+                        ReactantAmountOfSubstance[i + 1][reactant.Substance.SubstanceName] += sumMassProduct * (reactant.Coefficient / sumOfReactantsCoeffs);
+                        ReactantMasses[i + 1][reactant.Substance.SubstanceName] += sumMassProduct / (sumReactantAmount / (reactant.Coefficient * reactant.MolarMass));
+                    }
+                    //для предыдущих прибавить массы
+                    for (int j = 0; j <= i; j++)
+                    {
+                        foreach (var reactantAmount in ReactantAmountOfSubstance[i + 1])
+                        {
+                            var realReactant = allSubstances.Where(item => item.SubstanceName.Equals(reactantAmount.Key)).ToList()[0];
+                            ProductAmountOfSubstance[j][reactantAmount.Key] += ReactantMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
                         }
                     }
                 }
             }
-            Reactions = chemicalReactions;
+        }
+
+        private void InitializeDeicts(HashSet<ReactionSubstance> startSubstances, List<ChemicalSubstance> allSubstances)
+        {
+            foreach (var substance in startSubstances)
+            {
+                ProductMasses.Add(new Dictionary<String, double?>());
+                ReactantMasses.Add(new Dictionary<String, double?>());
+                ProductAmountOfSubstance.Add(new Dictionary<String, double?>());
+                ReactantAmountOfSubstance.Add(new Dictionary<String, double?>());
+            }
+            ProductMasses.Add(new Dictionary<String, double?>());
+            ReactantMasses.Add(new Dictionary<String, double?>());
+            ProductAmountOfSubstance.Add(new Dictionary<String, double?>());
+            ReactantAmountOfSubstance.Add(new Dictionary<String, double?>());
+            for (int k = 0; k < ProductMasses.Count; k++)
+            {
+                foreach (var sub in allSubstances)
+                {
+                    ProductMasses[k].Add(sub.SubstanceName, 0);
+                    ReactantMasses[k].Add(sub.SubstanceName, 0);
+                    ProductAmountOfSubstance[k].Add(sub.SubstanceName, 0);
+                    ReactantAmountOfSubstance[k].Add(sub.SubstanceName, 0);
+                }
+            }
+        }
+
+        private void FillSubstances(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
+        {
+            if (chemicalReactions == null)
+            {
+                throw new Exception();
+            }
+            Substances = new List<HashSet<ReactionSubstance>>();
+            Substances.Add(startSubstances);
+            //Убрать те, которые полностью прореагировали и дальше не нужны
+            for (int i = 0; i<Reactions.Count; i++)
+            {
+                Substances.Add(new HashSet<ReactionSubstance>());
+                foreach (var sub in Substances[Substances.Count-1])
+                {
+
+                }
+            }
         }
     }
 }

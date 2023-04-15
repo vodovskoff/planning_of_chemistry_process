@@ -20,7 +20,7 @@ namespace Планирование_химического_процесса
             }
         }
 
-        public PathSolution FindPathsToSubstances(HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
+        public PathSolution FindPathsToSubstances(HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances, List<ChemicalSubstance> allSubstances)
         {
             HashSet<ReactionSubstance> visitedSubstances = new HashSet<ReactionSubstance>();
             Dictionary<ReactionSubstance, List<ChemicalReaction>> paths = new Dictionary<ReactionSubstance, List<ChemicalReaction>>();
@@ -50,7 +50,7 @@ namespace Планирование_химического_процесса
                         paths.Add(product, new List<ChemicalReaction>());
                         foreach (var reagent in currentReaction.Reactants) 
                         {
-                            var previousPath = paths.Where(item => item.Key.Substance.Substance == reagent.Substance.Substance).Select(item =>item.Value);
+                            var previousPath = paths.Where(item => item.Key.Substance.SubstanceName == reagent.Substance.SubstanceName).Select(item =>item.Value);
                             foreach (var path in previousPath)
                             {
                                 paths[product].AddRange(path);
@@ -75,13 +75,13 @@ namespace Планирование_химического_процесса
                         }
                     }
                 }
-                if (targetSubstances.SetEquals(visitedSubstances))
+                if (targetSubstances.IsSubsetOf(visitedSubstances))
                 {
-                    return new PathSolution(FindOnlyRightPaths(paths, startSubstances, targetSubstances), startSubstances, targetSubstances);
+                    return new PathSolution(FindOnlyRightPaths(paths, startSubstances, targetSubstances), startSubstances, targetSubstances, allSubstances);
                 }
             }
 
-            return new PathSolution(FindOnlyRightPaths(paths, startSubstances, targetSubstances), startSubstances, targetSubstances);
+            return new PathSolution(FindOnlyRightPaths(paths, startSubstances, targetSubstances), startSubstances, targetSubstances, allSubstances);
         }
 
         private List<ChemicalReaction> FindOnlyRightPaths(Dictionary<ReactionSubstance, List<ChemicalReaction>> allPaths, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
@@ -89,14 +89,14 @@ namespace Планирование_химического_процесса
             List<ChemicalReaction> rightParts = new List<ChemicalReaction>();
             foreach (var target in targetSubstances)
             {
-                if (!(allPaths.Any(item=>item.Key.Substance.Substance==target.Substance.Substance)))
+                if (!(allPaths.Any(item=>item.Key.Substance.SubstanceName==target.Substance.SubstanceName)))
                 {
                     return null;
                 }
             }
             foreach (var path in allPaths)
             {
-                if (targetSubstances.Any(item=>item.Substance.Substance == path.Key.Substance.Substance))
+                if (targetSubstances.Any(item=>item.Substance.SubstanceName == path.Key.Substance.SubstanceName))
                 {
                     foreach (var reaction in path.Value)
                     {

@@ -17,12 +17,12 @@ namespace Планирование_химического_процесса
         public override string ToString()
         {
             string reactantsString = string.Join(" + ", Reactants.Select(rs =>
-                rs.Coefficient == 1 ? rs.Substance.Substance :
-                $"{rs.Coefficient}*{rs.Substance.Substance}"));
+                rs.Coefficient == 1 ? rs.Substance.SubstanceName :
+                $"{rs.Coefficient}*{rs.Substance.SubstanceName}"));
 
             string productsString = string.Join(" + ", Products.Select(rs =>
-                rs.Coefficient == 1 ? rs.Substance.Substance :
-                $"{rs.Coefficient}*{rs.Substance.Substance}"));
+                rs.Coefficient == 1 ? rs.Substance.SubstanceName :
+                $"{rs.Coefficient}*{rs.Substance.SubstanceName}"));
 
             return $"{reactantsString} → {productsString}";
         }
@@ -31,7 +31,7 @@ namespace Планирование_химического_процесса
         {
             foreach (var reactant in Reactants)
             {
-                if (!(visitedSubstances.Any(rs => rs.Substance.Substance == reactant.Substance.Substance))) {
+                if (!(visitedSubstances.Any(rs => rs.Substance.SubstanceName == reactant.Substance.SubstanceName))) {
                     return false;
                 }
             }

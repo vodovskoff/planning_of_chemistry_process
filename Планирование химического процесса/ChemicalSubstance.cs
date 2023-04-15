@@ -8,14 +8,20 @@ namespace Планирование_химического_процесса
 {
     public class ChemicalSubstance
     {
-        public string Substance { get; set; }
+        public string SubstanceName { get; set; }
         public double? MolarMass { get; set; }
         public double? Mass { get; set; }
 
         public ChemicalSubstance(string substance, double? molarMass)
         {
-            Substance = substance;
+            SubstanceName = substance;
             MolarMass = molarMass;
         }
+
+        public override string ToString()
+        {
+            return $"{SubstanceName} {MolarMass} г/моль";
+        }
+
     }
 }

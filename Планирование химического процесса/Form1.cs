@@ -31,6 +31,13 @@ namespace Планирование_химического_процесса
             if (listBox1.SelectedIndex != -1)
             {
                 textBox5.Text = listBox1.SelectedItem.ToString();
+                foreach (var subu in substances)
+                {
+                    if (subu.SubstanceName == textBox5.Text)
+                    {
+                        textBox10.Text = subu.MolarMass.ToString();
+                    }
+                }
             }
         }
 
@@ -70,15 +77,15 @@ namespace Планирование_химического_процесса
             }
 
             // проверяем, что вещество с таким названием еще не добавлено
-            if (inputReactants.Any(p => p.Substance.Substance == substanceName))
+            if (inputReactants.Any(p => p.Substance.SubstanceName == substanceName))
             {
                 MessageBox.Show("Вещество с таким названием уже добавлено!");
                 return;
             }
 
             // создаем новый объект ReactionSubstance
-            ChemicalSubstance newSubstance = substances.Find(x => x.Substance == substanceName);
-            newSubstance.MolarMass = molarMass;
+            ChemicalSubstance newSubstanceTemp = substances.Find(x => x.SubstanceName == substanceName);
+            ChemicalSubstance newSubstance = new ChemicalSubstance(newSubstanceTemp.SubstanceName, newSubstanceTemp.MolarMass);
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
@@ -105,13 +112,18 @@ namespace Планирование_химического_процесса
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(textBox1.Text))
+            if (!string.IsNullOrWhiteSpace(textBox1.Text) && !string.IsNullOrWhiteSpace(textBox11.Text))
             {
                 string newSubstance = textBox1.Text.Trim();
-
-                if (!substances.Any(s => s.Substance == newSubstance))
+                double MolarMass = 0;
+                if (!(Double.TryParse(textBox11.Text.Trim(), out MolarMass)))
                 {
-                    substances.Add(new ChemicalSubstance(newSubstance, null));
+                    return;
+                }
+
+                if (!substances.Any(s => s.SubstanceName == newSubstance))
+                {
+                    substances.Add(new ChemicalSubstance(newSubstance, MolarMass));
                     listBox1.Items.Add(newSubstance);
                 }
                 Реакции_Enter(sender, e);
@@ -125,16 +137,24 @@ namespace Планирование_химического_процесса
         {
             if (!string.IsNullOrWhiteSpace(textBox5.Text))
             {
+                double MolarMass = 0;
+                if (!(Double.TryParse(textBox10.Text.Trim(), out MolarMass)))
+                {
+                    return;
+                }
                 string newSubstance = textBox5.Text.Trim();
 
-                if (!substances.Any(s => s.Substance == newSubstance))
+                if (!substances.Any(s => s.SubstanceName == newSubstance))
                 {
                     int index = listBox1.SelectedIndex;
-                    substances[index].Substance = newSubstance;
+                    substances[index].SubstanceName = newSubstance;
+                    substances[index].MolarMass = MolarMass;
                     listBox1.Items[index] = newSubstance;
                 } else
                 {
-                    MessageBox.Show($"{newSubstance} Уже существует");
+                    int index = listBox1.SelectedIndex;
+                    substances[index].MolarMass = MolarMass;
+                    listBox1.Items[index] = newSubstance;
                 }
 
                 textBox5.Clear();
@@ -208,7 +228,7 @@ namespace Планирование_химического_процесса
             HashSet<ReactionSubstance> reactants = new HashSet<ReactionSubstance>();
             foreach (var reactant in tempReactatns)
             {
-                if (checkedListBox1.CheckedItems.Contains(reactant.Substance.Substance))
+                if (checkedListBox1.CheckedItems.Contains(reactant.Substance.SubstanceName))
                 {
                     reactants.Add(reactant);
                 }
@@ -217,7 +237,7 @@ namespace Планирование_химического_процесса
             HashSet<ReactionSubstance> products = new HashSet<ReactionSubstance>();
             foreach (var product in tempProducts)
             {
-                if (checkedListBox2.CheckedItems.Contains(product.Substance.Substance))
+                if (checkedListBox2.CheckedItems.Contains(product.Substance.SubstanceName))
                 {
                     products.Add(product);
                 }
@@ -248,19 +268,25 @@ namespace Планирование_химического_процесса
             checkedListBox1.Items.Clear();
             checkedListBox2.Items.Clear();
 
-            foreach (ChemicalSubstance substance in substances)
+            if (substances!=null)
             {
-                checkedListBox1.Items.Add(substance.Substance);
-                checkedListBox2.Items.Add(substance.Substance);
+                foreach (ChemicalSubstance substance in substances)
+                {
+                    checkedListBox1.Items.Add(substance.SubstanceName);
+                    checkedListBox2.Items.Add(substance.SubstanceName);
+                }
             }
         }
 
         private void ClearAndFillListBox2()
         {
             listBox2.Items.Clear();
-            foreach (ChemicalReaction reaction in reactions)
+            if (reactions!=null)
             {
-                listBox2.Items.Add(reaction.reactionName);
+                foreach (ChemicalReaction reaction in reactions)
+                {
+                    listBox2.Items.Add(reaction.reactionName);
+                }
             }
         }
 
@@ -270,23 +296,27 @@ namespace Планирование_химического_процесса
             listBox5.Items.Clear();
             listBox6.Items.Clear();
             ChemicalSubstanceStorage storage = new ChemicalSubstanceStorage(substances);
-            storage.Save();
-            foreach (ChemicalSubstance substance in substances)
+            if (substances!=null)
             {
-                listBox1.Items.Add(substance.Substance);
-                listBox5.Items.Add(substance.Substance);
-                listBox6.Items.Add(substance.Substance);
+                storage.Save();
+                foreach (ChemicalSubstance substance in substances)
+                {
+                    listBox1.Items.Add(substance.SubstanceName);
+                    listBox5.Items.Add(substance.SubstanceName);
+                    listBox6.Items.Add(substance.SubstanceName);
+                }
             }
+
         }
 
         private void RemoveSubstanceFromList(string substanceName)
         {
             for (int i = substances.Count - 1; i >= 0; i--)
             {
-                if (substances[i].Substance == substanceName)
+                if (substances[i].SubstanceName == substanceName)
                 {
-                    if (reactions.Any(r => r.Reactants.Any(rs => rs.Substance.Substance == substanceName)
-                      || r.Products.Any(rp => rp.Substance.Substance == substanceName)))
+                    if (reactions.Any(r => r.Reactants.Any(rs => rs.Substance.SubstanceName == substanceName)
+                      || r.Products.Any(rp => rp.Substance.SubstanceName == substanceName)))
                     {
                         MessageBox.Show($"{substanceName} используется в реакции");
                     }
@@ -336,14 +366,14 @@ namespace Планирование_химического_процесса
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string substanceName = listBox3.SelectedItem.ToString();
+            string substanceName = listBox3.SelectedItem.ToString().Split(' ')[0];
 
             // находим соответствующий объект ChemicalSubstance
-            ChemicalSubstance substance = substances.Find(x => x.Substance == substanceName);
+            ChemicalSubstance substance = substances.Find(x => x.SubstanceName == substanceName);
 
             // получаем коэффициент из textBox2
             int coefficient = int.Parse(textBox2.Text);
-            if (!tempReactatns.Any(x => x.Substance.Substance == substanceName))
+            if (!tempReactatns.Any(x => x.Substance.SubstanceName == substanceName))
             {
                 // создаем объект ReactionSubstance
                 ReactionSubstance reactionSubstance = new ReactionSubstance(substance, substance.MolarMass, coefficient);
@@ -355,14 +385,14 @@ namespace Планирование_химического_процесса
 
         private void button5_Click(object sender, EventArgs e)
         {
-            string substanceName = listBox4.SelectedItem.ToString();
+            string substanceName = listBox4.SelectedItem.ToString().Split(' ')[0];
 
             // находим соответствующий объект ChemicalSubstance
-            ChemicalSubstance substance = substances.Find(x => x.Substance == substanceName);
+            ChemicalSubstance substance = substances.Find(x => x.SubstanceName == substanceName);
 
             // получаем коэффициент из textBox2
             int coefficient = int.Parse(textBox3.Text);
-            if (tempProducts.Any(x => x.Substance.Substance == substanceName)) {
+            if (tempProducts.Any(x => x.Substance.SubstanceName == substanceName)) {
 
             } else
             {
@@ -409,15 +439,15 @@ namespace Планирование_химического_процесса
             }
 
             // проверяем, что вещество с таким названием еще не добавлено
-            if (inputProducts.Any(p => p.Substance.Substance == substanceName))
+            if (inputProducts.Any(p => p.Substance.SubstanceName == substanceName))
             {
                 MessageBox.Show("Вещество с таким названием уже добавлено!");
                 return;
             }
 
             // создаем новый объект ReactionSubstance
-            ChemicalSubstance newSubstance = substances.Find(x => x.Substance == substanceName);
-            newSubstance.MolarMass = molarMass;
+            ChemicalSubstance newSubstanceTemp = substances.Find(x => x.SubstanceName == substanceName);
+            ChemicalSubstance newSubstance = new ChemicalSubstance(newSubstanceTemp.SubstanceName, newSubstanceTemp.MolarMass);
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
@@ -445,7 +475,7 @@ namespace Планирование_химического_процесса
             dataGridView1.Rows.RemoveAt(rowIndex);
 
             // удаляем вещество из списка inputProducts
-            inputReactants.RemoveAll(p => p.Substance.Substance == substanceName);
+            inputReactants.RemoveAll(p => p.Substance.SubstanceName == substanceName);
         }
 
         private void button13_Click(object sender, EventArgs e)
@@ -466,7 +496,7 @@ namespace Планирование_химического_процесса
             dataGridView2.Rows.RemoveAt(rowIndex);
 
             // удаляем вещество из списка inputProducts
-            inputProducts.RemoveAll(p => p.Substance.Substance == substanceName);
+            inputProducts.RemoveAll(p => p.Substance.SubstanceName == substanceName);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -508,7 +538,7 @@ namespace Планирование_химического_процесса
             try
             {
                 var ChemicalPathFinder = new ChemicalPathFinder(reactions);
-                var Solution = ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet());
+                var Solution = ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet(), substances);
                 dataGridView3.Rows.Clear();
                 dataGridView4.Rows.Clear();
                 for (int i = 0; i < Solution.Reactions.Count; i++)
@@ -517,9 +547,30 @@ namespace Планирование_химического_процесса
                 }
                 for (int i = 0; i < Solution.Substances.Count; i++)
                 {
-                    dataGridView3.Rows.Add(i + 1,
-                        string.Join(", ",
-                        Solution.Substances[i].Select(rs => rs.isExecuting ? $"{rs.Substance.Substance}" : "")));
+                    string subs = "";
+                    foreach (var sb in Solution.Substances[i])
+                    {
+                        if (sb.isExecuting)
+                        {
+                            subs += sb.Substance.SubstanceName;
+                            var prodMass = Solution.ProductMasses[i][sb.Substance.SubstanceName];
+                            var reactMass = Solution.ReactantMasses[i][sb.Substance.SubstanceName];
+                            double? mass = 0.0;
+                            if (reactMass>prodMass)
+                            {
+                                mass = reactMass;
+                            } else
+                            {
+                                mass = prodMass;
+                            }
+                            if (mass > 0)
+                            {
+                                subs +=" " + mass + " грамм";
+                            }
+                            subs += ",";
+                        }
+                    }
+                    dataGridView3.Rows.Add(i + 1, subs);
                 }
                 //Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
                 //Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
@@ -531,6 +582,11 @@ namespace Планирование_химического_процесса
         }
 
         private void button10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
