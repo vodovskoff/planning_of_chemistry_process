@@ -51,6 +51,7 @@ namespace Планирование_химического_процесса
                     //рассчитать количества вещества остальных продуктов
                     foreach (var product in Reactions[i].Products)
                     {
+                        //если не макс то увеличиваем чтобы соответствовал макс
                         if (product.Substance.SubstanceName != SubstanceWithMaxAmount.Key && Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)))
                         {
 
@@ -60,7 +61,7 @@ namespace Планирование_химического_процесса
 
                         } else
                         {
-                            if (Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)))
+                            if (Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)) && !targetSubstances.Any(item=>item.Substance.SubstanceName==product.Substance.SubstanceName))
                             {
                                 ProductMasses[i + 1][product.Substance.SubstanceName] += ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName].Value * product.Substance.MolarMass;
                             }
@@ -105,6 +106,10 @@ namespace Планирование_химического_процесса
                 ProductAmountOfSubstance.Add(new Dictionary<String, double?>());
                 ReactantAmountOfSubstance.Add(new Dictionary<String, double?>());
             }
+            ProductMasses.Add(new Dictionary<String, double?>());
+            ReactantMasses.Add(new Dictionary<String, double?>());
+            ProductAmountOfSubstance.Add(new Dictionary<String, double?>());
+            ReactantAmountOfSubstance.Add(new Dictionary<String, double?>());
             ProductMasses.Add(new Dictionary<String, double?>());
             ReactantMasses.Add(new Dictionary<String, double?>());
             ProductAmountOfSubstance.Add(new Dictionary<String, double?>());

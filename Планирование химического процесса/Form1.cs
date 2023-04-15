@@ -565,7 +565,8 @@ namespace Планирование_химического_процесса
                             }
                             if (mass > 0)
                             {
-                                subs +=" " + mass + " грамм";
+                                double mass1 = (double) mass;
+                                subs +=" " + Math.Round(mass1, 2) + " грамм";
                             }
                             subs += ",";
                         }
