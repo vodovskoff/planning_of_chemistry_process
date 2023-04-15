@@ -121,23 +121,47 @@ namespace Планирование_химического_процесса
             }
         }
 
-        private void FillSubstances(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
+        public void FillSubstances(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances)
         {
+            Substances = new List<HashSet<ReactionSubstance>>();
+            Substances.Add(startSubstances);
+            var realSubs = new List<HashSet<ReactionSubstance>>();
+            realSubs.Add(startSubstances);
             if (chemicalReactions == null)
             {
                 throw new Exception();
             }
-            Substances = new List<HashSet<ReactionSubstance>>();
-            Substances.Add(startSubstances);
-            //Убрать те, которые полностью прореагировали и дальше не нужны
-            for (int i = 0; i<Reactions.Count; i++)
+            for (int i = 0; i < chemicalReactions.Count; i++)
             {
-                Substances.Add(new HashSet<ReactionSubstance>());
-                foreach (var sub in Substances[Substances.Count-1])
+                var tempSet = new HashSet<ReactionSubstance>();
+                tempSet.UnionWith(Substances[i]);
+                tempSet.UnionWith(chemicalReactions[i].NewSubstances);
+                Substances.Add(tempSet);
+            }
+            //Убрать те, которые полностью прореагировали и дальше не нужны
+            for (int i = 0; i < Substances.Count; i++) //По всем этапам
+            {
+                realSubs.Add(new HashSet<ReactionSubstance>());
+                foreach (var sub in Substances[i].ToArray()) //по всем веществам этапа
                 {
-
+                    bool isFound = false; ;
+                    for (int j = i; j < chemicalReactions.Count; j++)//по следующим реакциям
+                    {
+                        if (chemicalReactions[j].Reactants.Any(item => item.Substance.SubstanceName == sub.Substance.SubstanceName))
+                        {
+                            isFound = true;
+                        }
+                    }
+                    if (!isFound)
+                    {
+                        Substances[i].RemoveWhere(item => item.Substance.SubstanceName == sub.Substance.SubstanceName && !targetSubstances.Any(target => target.Substance.SubstanceName == item.Substance.SubstanceName));
+                    } else
+                    {
+                        realSubs[realSubs.Count - 1].Add(sub);
+                    }
                 }
             }
+            Reactions = chemicalReactions;
         }
     }
 }
