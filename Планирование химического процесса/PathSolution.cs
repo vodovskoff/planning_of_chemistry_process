@@ -98,20 +98,20 @@ namespace Планирование_химического_процесса
 
                             var temp1 = ProductAmountOfSubstance[j][reactantAmount.Key];
                             var temp2 = ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
-                            if (temp1 < temp2)
-                            {
+                            //if (temp1 < temp2)
+                            //{
                                 ProductAmountOfSubstance[j][reactantAmount.Key] += ReactantMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
-                            }
+                            //}
                         }
                         foreach (var reactantAmount in ProductAmountOfSubstance[i + 1])
                         {
                             var realReactant = allSubstances.Where(item => item.SubstanceName.Equals(reactantAmount.Key)).ToList()[0];
                             var temp1 = ProductAmountOfSubstance[j][reactantAmount.Key];
                             var temp2 = ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
-                            if (temp1 < temp2)
-                            {
+                            //if (temp1 < temp2)
+                            //{
                                 ProductAmountOfSubstance[j][reactantAmount.Key] += ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
-                            }
+                            //}
                         }
                     }
                 }

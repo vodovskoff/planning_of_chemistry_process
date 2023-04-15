@@ -61,20 +61,8 @@ namespace Планирование_химического_процесса
             }
 
             string substanceName = listBox5.SelectedItem.ToString();
-            double molarMass;
-            double mass;
-
-            // проверяем, что введены корректные значения молярной массы и массы
-            if (!double.TryParse(textBox6.Text, out molarMass) || molarMass <= 0)
-            {
-                MessageBox.Show("Введите корректное значение молярной массы!");
-                return;
-            }
-            if (!double.TryParse(textBox7.Text, out mass) || mass <= 0)
-            {
-                MessageBox.Show("Введите корректное значение массы!");
-                return;
-            }
+            double molarMass=1;
+            double mass=1;
 
             // проверяем, что вещество с таким названием еще не добавлено
             if (inputReactants.Any(p => p.Substance.SubstanceName == substanceName))
@@ -372,8 +360,10 @@ namespace Планирование_химического_процесса
             ChemicalSubstance substance = substances.Find(x => x.SubstanceName == substanceName);
 
             // получаем коэффициент из textBox2
-            int coefficient = int.Parse(textBox2.Text);
-            if (!tempReactatns.Any(x => x.Substance.SubstanceName == substanceName))
+            int coefficient;
+            
+           
+            if (Int32.TryParse(textBox2.Text, out coefficient) && !tempReactatns.Any(x => x.Substance.SubstanceName == substanceName))
             {
                 // создаем объект ReactionSubstance
                 ReactionSubstance reactionSubstance = new ReactionSubstance(substance, substance.MolarMass, coefficient);
@@ -423,15 +413,9 @@ namespace Планирование_химического_процесса
             }
 
             string substanceName = listBox6.SelectedItem.ToString();
-            double molarMass;
+            double molarMass=1;
             double mass;
 
-            // проверяем, что введены корректные значения молярной массы и массы
-            if (!double.TryParse(textBox9.Text, out molarMass) || molarMass <= 0)
-            {
-                MessageBox.Show("Введите корректное значение молярной массы!");
-                return;
-            }
             if (!double.TryParse(textBox8.Text, out mass) || mass <= 0)
             {
                 MessageBox.Show("Введите корректное значение массы!");
@@ -571,6 +555,7 @@ namespace Планирование_химического_процесса
                             subs += ",";
                         }
                     }
+                    label5.Text = "Множество конечных веществ достижимо. Доказательство:";
                     dataGridView3.Rows.Add(i + 1, subs);
                 }
                 //Console.WriteLine(ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet()));
