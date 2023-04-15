@@ -21,6 +21,11 @@ namespace Планирование_химического_процесса
             FillSubstances(chemicalReactions, startSubstances, targetSubstances);
             Reactions = chemicalReactions;
             InitializeDeicts(startSubstances, allSubstances);
+            CountMasses(targetSubstances, allSubstances);
+        }
+
+        private void CountMasses(HashSet<ReactionSubstance> targetSubstances, List<ChemicalSubstance> allSubstances)
+        {
             for (int i = Reactions.Count - 1; i >= 0; i--) //по всем реакциям начиная от последней
             {
                 foreach (var subToCountMass in Reactions[i].Products)//По всем продуктам в текущей реакции
@@ -59,9 +64,10 @@ namespace Планирование_химического_процесса
                             ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName] += SubstanceWithMaxAmount.Value * (product.Coefficient / realSubWithMaxAmount.Coefficient);
                             ProductMasses[i + 1][product.Substance.SubstanceName] += ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName].Value * product.Substance.MolarMass;
 
-                        } else
+                        }
+                        else
                         {
-                            if (Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)) && !targetSubstances.Any(item=>item.Substance.SubstanceName==product.Substance.SubstanceName))
+                            if (Reactions[i].Products.Any(item => item.Substance.SubstanceName.Equals(SubstanceWithMaxAmount.Key)) && !targetSubstances.Any(item => item.Substance.SubstanceName == product.Substance.SubstanceName))
                             {
                                 ProductMasses[i + 1][product.Substance.SubstanceName] += ProductAmountOfSubstance[i + 1][product.Substance.SubstanceName].Value * product.Substance.MolarMass;
                             }
@@ -73,14 +79,13 @@ namespace Планирование_химического_процесса
                         sumReactantAmount += reactant.Coefficient * reactant.MolarMass;
                         sumOfReactantsCoeffs += reactant.Coefficient;
                     }
-                    foreach(var t in ProductMasses[i+1])
+                    foreach (var t in ProductMasses[i + 1])
                     {
                         sumMassProduct += t.Value;
                     }
                     //рассчитать количетсва вещества реагентов
                     foreach (var reactant in Reactions[i].Reactants)
                     {
-
                         ReactantAmountOfSubstance[i + 1][reactant.Substance.SubstanceName] += sumMassProduct * (reactant.Coefficient / sumOfReactantsCoeffs);
                         ReactantMasses[i + 1][reactant.Substance.SubstanceName] += sumMassProduct / (sumReactantAmount / (reactant.Coefficient * reactant.MolarMass));
                     }
@@ -90,7 +95,93 @@ namespace Планирование_химического_процесса
                         foreach (var reactantAmount in ReactantAmountOfSubstance[i + 1])
                         {
                             var realReactant = allSubstances.Where(item => item.SubstanceName.Equals(reactantAmount.Key)).ToList()[0];
-                            ProductAmountOfSubstance[j][reactantAmount.Key] += ReactantMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
+
+                            var temp1 = ProductAmountOfSubstance[j][reactantAmount.Key];
+                            var temp2 = ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
+                            if (temp1 < temp2)
+                            {
+                                ProductAmountOfSubstance[j][reactantAmount.Key] += ReactantMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
+                            }
+                        }
+                        foreach (var reactantAmount in ProductAmountOfSubstance[i + 1])
+                        {
+                            var realReactant = allSubstances.Where(item => item.SubstanceName.Equals(reactantAmount.Key)).ToList()[0];
+                            var temp1 = ProductAmountOfSubstance[j][reactantAmount.Key];
+                            var temp2 = ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
+                            if (temp1 < temp2)
+                            {
+                                ProductAmountOfSubstance[j][reactantAmount.Key] += ProductMasses[i + 1][reactantAmount.Key] / realReactant.MolarMass;
+                            }
+                        }
+                    }
+                }
+                restoreMassesFromNextStages();
+            }
+            //Костыль: если где-то массса нуль взять следующу ненулевую
+        }
+
+        private void restoreMassesFromNextStages()
+        {
+            for (int i = 0; i < ProductMasses.Count; i++)
+            {
+                foreach (var prod in ProductMasses[i].ToArray())
+                {
+                    if (prod.Value == 0 && i + 1 < ProductMasses.Count)
+                    {
+                        int r = i + 1;
+                        while (prod.Value == 0 && r < ProductMasses.Count)
+                        {
+                            var nextSuchProd = ProductMasses[r].Where(item => item.Key == prod.Key).ToList()[0];
+                            ProductMasses[i][nextSuchProd.Key] += nextSuchProd.Value;
+                            r++;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < ReactantMasses.Count; i++)
+            {
+                foreach (var prod in ReactantMasses[i].ToArray())
+                {
+                    if (prod.Value == 0 && i + 1 < ReactantMasses.Count)
+                    {
+                        int r = i + 1;
+                        while (prod.Value == 0 && r < ReactantMasses.Count)
+                        {
+                            var nextSuchProd = ReactantMasses[r].Where(item => item.Key == prod.Key).ToList()[0];
+                            ReactantMasses[i][nextSuchProd.Key] += nextSuchProd.Value;
+                            r++;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < ProductMasses.Count; i++)
+            {
+                foreach (var prod in ProductMasses[i].ToArray())
+                {
+                    if (prod.Value == 0 && i + 1 < ProductMasses.Count)
+                    {
+                        int r = i + 1;
+                        while (prod.Value == 0 && r < ProductMasses.Count)
+                        {
+                            var nextSuchProd = ReactantMasses[r].Where(item => item.Key == prod.Key).ToList()[0];
+                            ProductMasses[i][nextSuchProd.Key] += nextSuchProd.Value;
+                            r++;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < ReactantMasses.Count; i++)
+            {
+                foreach (var prod in ReactantMasses[i].ToArray())
+                {
+                    if (prod.Value == 0 && i + 1 < ReactantMasses.Count)
+                    {
+                        int r = i + 1;
+                        while (prod.Value == 0 && r < ReactantMasses.Count)
+                        {
+                            var nextSuchProd = ProductMasses[r].Where(item => item.Key == prod.Key).ToList()[0];
+                            ReactantMasses[i][nextSuchProd.Key] += nextSuchProd.Value;
+                            r++;
                         }
                     }
                 }
