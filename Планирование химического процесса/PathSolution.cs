@@ -59,15 +59,15 @@ namespace Планирование_химического_процесса
                 .Where(t => reactionProductNames.Contains(t.Key))
                 .Sum(t => t.Value);
             
-            foreach (var productMass in productMasses)
+            foreach (var substance in _allSubstances)
             {
-                masses[productMass.Key] = productMass.Value;
+                masses[substance.SubstanceName] = productMasses[substance.SubstanceName];
             }
 
             var z = reaction.Reactants.Sum(t => t.Coefficient * t.MolarMass);
             foreach (var reactant in reaction.Reactants)
             {
-                masses[reactant.Name] = reactant.Coefficient * reactant.MolarMass * totalMass / z;
+                masses[reactant.Name] += reactant.Coefficient * reactant.MolarMass * totalMass / z;
             }
             return masses;
         }
