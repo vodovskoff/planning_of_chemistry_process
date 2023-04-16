@@ -8,14 +8,14 @@ namespace Планирование_химического_процесса
 {
     public class ReactionSubstance
     {
+        public string Name => Substance.SubstanceName;
         public ChemicalSubstance Substance { get; set; }
-        public double? MolarMass { get; set; }
+        public double? MolarMass => Substance.MolarMass;
         public int Coefficient { get; set; }
         public bool isExecuting { get; set; }
-        public ReactionSubstance(ChemicalSubstance substance, double? molarMass, int coefficient)
+        public ReactionSubstance(ChemicalSubstance substance, int coefficient)
         {
             Substance = substance;
-            MolarMass = molarMass;
             Coefficient = coefficient;
             isExecuting = true;
         }

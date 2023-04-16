@@ -77,7 +77,7 @@ namespace Планирование_химического_процесса
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
-            inputReactants.Add(new ReactionSubstance(newSubstance, molarMass, 1));
+            inputReactants.Add(new ReactionSubstance(newSubstance, 1));
 
             // добавляем строку в dataGridView1
             dataGridView1.Rows.Add(substanceName, molarMass, mass);
@@ -418,7 +418,7 @@ namespace Планирование_химического_процесса
             if (Int32.TryParse(textBox2.Text, out coefficient) && !tempReactatns.Any(x => x.Substance.SubstanceName == substanceName))
             {
                 // создаем объект ReactionSubstance
-                ReactionSubstance reactionSubstance = new ReactionSubstance(substance, substance.MolarMass, coefficient);
+                ReactionSubstance reactionSubstance = new ReactionSubstance(substance, coefficient);
 
                 // добавляем объект в список reactionSubstances
                 tempReactatns.Add(reactionSubstance);
@@ -439,7 +439,7 @@ namespace Планирование_химического_процесса
             } else
             {
                 // создаем объект ReactionSubstance
-            ReactionSubstance reactionSubstance = new ReactionSubstance(substance, substance.MolarMass, coefficient);
+            ReactionSubstance reactionSubstance = new ReactionSubstance(substance, coefficient);
 
                 // добавляем объект в список reactionSubstances
             tempProducts.Add(reactionSubstance);
@@ -487,7 +487,7 @@ namespace Планирование_химического_процесса
             newSubstance.Mass = mass;
 
             // добавляем его в список inputProducts
-            inputProducts.Add(new ReactionSubstance(newSubstance, molarMass, 1));
+            inputProducts.Add(new ReactionSubstance(newSubstance, 1));
 
             // добавляем строку в dataGridView1
             dataGridView2.Rows.Add(substanceName, mass);
@@ -593,6 +593,8 @@ namespace Планирование_химического_процесса
                 }
                 var ChemicalPathFinder = new ChemicalPathFinder(reactions);
                 var Solution = ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet(), substances);
+                Solution.Solve();
+                
                 dataGridView3.Rows.Clear();
                 dataGridView4.Rows.Clear();
                 for (int i = 0; i < Solution.Reactions.Count; i++)
@@ -608,20 +610,8 @@ namespace Планирование_химического_процесса
                         {
                             subs += sb.Substance.SubstanceName;
                             var prodMass = Solution.ProductMasses[i][sb.Substance.SubstanceName];
-                            var reactMass = Solution.ReactantMasses[i][sb.Substance.SubstanceName];
-                            double? mass = 0.0;
-                            if (reactMass>prodMass)
-                            {
-                                mass = reactMass;
-                            } else
-                            {
-                                mass = prodMass;
-                            }
-                            if (mass > 0)
-                            {
-                                double mass1 = (double) mass;
-                                subs +=" " + Math.Round(mass1, 2) + " грамм";
-                            }
+                            //var reactMass = Solution.ReactantMasses[i][sb.Substance.SubstanceName];
+                            subs += " " + Math.Round(prodMass.Value, 2) + " грамм";
                             subs += ",";
                         }
                     }
@@ -633,7 +623,8 @@ namespace Планирование_химического_процесса
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Не получилось составить план процесса. Скорее всего не хватает начальных веществ и/или реакций");
+                MessageBox.Show("Не получилось составить план процесса. Скорее всего не хватает начальных веществ и/или реакций." +
+                                ex.Message + "\n" + ex.StackTrace);
             }
         }
 

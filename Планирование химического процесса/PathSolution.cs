@@ -9,20 +9,67 @@ namespace Планирование_химического_процесса
 {
     class PathSolution
     {
+        private readonly HashSet<ReactionSubstance> _targetSubstances;
+        private readonly List<ChemicalSubstance> _allSubstances;
         public List<HashSet<ReactionSubstance>> Substances { get; set; }
         public List<ChemicalReaction> Reactions { get; set; }
-        public List<Dictionary<String, double?>> ProductMasses = new List<Dictionary<String, double?>>();
-        public List<Dictionary<String, double?>> ReactantMasses = new List<Dictionary<String, double?>>();
-        public List<Dictionary<String, double?>> ProductAmountOfSubstance = new List<Dictionary<String, double?>>();
-        public List<Dictionary<String, double?>> ReactantAmountOfSubstance = new List<Dictionary<String, double?>>();
+        public List<Dictionary<String, double?>> ProductMasses = new List<Dictionary<string, double?>>();
+        public List<Dictionary<String, double?>> ReactantMasses = new List<Dictionary<string, double?>>();
+        public List<Dictionary<String, double?>> ProductAmountOfSubstance = new List<Dictionary<string, double?>>();
+        public List<Dictionary<String, double?>> ReactantAmountOfSubstance = new List<Dictionary<string, double?>>();
 
-        public PathSolution(List<ChemicalReaction> chemicalReactions, HashSet<ReactionSubstance> startSubstances, HashSet<ReactionSubstance> targetSubstances, List<ChemicalSubstance> allSubstances)
+        public PathSolution(List<ChemicalReaction> chemicalReactions,
+            HashSet<ReactionSubstance> startSubstances, 
+            HashSet<ReactionSubstance> targetSubstances, 
+            List<ChemicalSubstance> allSubstances)
         {
+            _targetSubstances = targetSubstances;
+            _allSubstances = allSubstances;
             FillSubstances(chemicalReactions, startSubstances, targetSubstances);
             Reactions = chemicalReactions;
             InitializeDeicts(startSubstances, allSubstances);
-            CountMasses(targetSubstances, allSubstances);
-            ReloadMasses();
+            //CountMasses(targetSubstances, allSubstances);
+            //ReloadMasses();
+        }
+
+        public void Solve()
+        {
+            foreach (var substance in _allSubstances)
+            {
+                ProductMasses[Reactions.Count][substance.SubstanceName] = 0;
+            }
+            foreach (var targetSubstance in _targetSubstances)
+            {
+                ProductMasses[Reactions.Count][targetSubstance.Name] = targetSubstance.Substance.Mass;
+            }
+            
+            for (int i = Reactions.Count - 1; i >= 0; i--)
+            {
+                ProductMasses[i] = CalculateMasses(Reactions[i], ProductMasses[i + 1]);
+            }
+        }
+
+        private Dictionary<string, double?> CalculateMasses(ChemicalReaction reaction, Dictionary<string, double?> productMasses)
+        {
+            var masses = new Dictionary<string, double?>();
+
+            var reactionProductNames = reaction.Products.Select(t => t.Name).ToHashSet();
+            
+            var totalMass = productMasses
+                .Where(t => reactionProductNames.Contains(t.Key))
+                .Sum(t => t.Value);
+            
+            foreach (var productMass in productMasses)
+            {
+                masses[productMass.Key] = productMass.Value;
+            }
+
+            var z = reaction.Reactants.Sum(t => t.Coefficient * t.MolarMass);
+            foreach (var reactant in reaction.Reactants)
+            {
+                masses[reactant.Name] = reactant.Coefficient * reactant.MolarMass * totalMass / z;
+            }
+            return masses;
         }
 
         private void ReloadMasses()
@@ -37,7 +84,6 @@ namespace Планирование_химического_процесса
             {
                 foreach (var currProd in ProductMasses[i])
                 {
-                    var currMass = currProd.Value;
                     if (i - 1 >= 0 && ProductMasses[i - 1].Where(item => item.Key == currProd.Key).ToList()[0].Value > currProd.Value)
                     {
                         productMasses[i - 1][currProd.Key] = ProductMasses[i - 1].Where(item => item.Key == currProd.Key).ToList()[0].Value;
@@ -52,15 +98,13 @@ namespace Планирование_химического_процесса
             {
                 foreach (var subToCountMass in Reactions[i].Products)//По всем продуктам в текущей реакции
                 {
-                    if (targetSubstances.Any(item => item.Substance.SubstanceName == subToCountMass.Substance.SubstanceName))
+                    foreach (var matched in targetSubstances.Where(item => IsSameSubstance(item, subToCountMass)))
                     {
-                        var matched = targetSubstances.Where(item => item.Substance.SubstanceName.Equals(subToCountMass.Substance.SubstanceName)).ToList()[0];
-
                         ProductMasses[i + 1][subToCountMass.Substance.SubstanceName] += matched.Substance.Mass;
                         ProductAmountOfSubstance[i + 1][subToCountMass.Substance.SubstanceName] += ProductMasses[i + 1][subToCountMass.Substance.SubstanceName] / subToCountMass.Substance.MolarMass;
                     }
                 }
-                if (ProductAmountOfSubstance[i + 1].Count() > 0)
+                if (ProductAmountOfSubstance[i + 1].Count > 0)
                 {
                     var SubstanceWithMaxAmount = ProductAmountOfSubstance[i + 1].First();
 
@@ -140,6 +184,11 @@ namespace Планирование_химического_процесса
                 restoreMassesFromNextStages();
             }
             //Костыль: если где-то массса нуль взять следующу ненулевую
+        }
+
+        private static bool IsSameSubstance(ReactionSubstance item, ReactionSubstance subToCountMass)
+        {
+            return item.Substance.SubstanceName.Equals(subToCountMass.Substance.SubstanceName);
         }
 
         private void restoreMassesFromNextStages()
