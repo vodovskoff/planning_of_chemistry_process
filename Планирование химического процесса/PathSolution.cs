@@ -22,6 +22,28 @@ namespace Планирование_химического_процесса
             Reactions = chemicalReactions;
             InitializeDeicts(startSubstances, allSubstances);
             CountMasses(targetSubstances, allSubstances);
+            ReloadMasses();
+        }
+
+        private void ReloadMasses()
+        {
+            ReloadMasses(ProductMasses);
+            ReloadMasses(ReactantMasses);
+        }
+
+        private void ReloadMasses(List<Dictionary<string, double?>> productMasses)
+        {
+            for (int i = ProductMasses.Count - 1; i >= 0; i--)
+            {
+                foreach (var currProd in ProductMasses[i])
+                {
+                    var currMass = currProd.Value;
+                    if (i - 1 >= 0 && ProductMasses[i - 1].Where(item => item.Key == currProd.Key).ToList()[0].Value > currProd.Value)
+                    {
+                        productMasses[i - 1][currProd.Key] = ProductMasses[i - 1].Where(item => item.Key == currProd.Key).ToList()[0].Value;
+                    }
+                }
+            }
         }
 
         private void CountMasses(HashSet<ReactionSubstance> targetSubstances, List<ChemicalSubstance> allSubstances)
@@ -129,7 +151,7 @@ namespace Планирование_химического_процесса
                     if (prod.Value == 0 && i + 1 < ProductMasses.Count)
                     {
                         int r = i + 1;
-                        while (prod.Value == 0 && r < ProductMasses.Count)
+                        while (prod.Value <  0 && r < ProductMasses.Count)
                         {
                             var nextSuchProd = ProductMasses[r].Where(item => item.Key == prod.Key).ToList()[0];
                             ProductMasses[i][nextSuchProd.Key] += nextSuchProd.Value;
