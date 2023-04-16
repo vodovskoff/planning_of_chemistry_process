@@ -75,6 +75,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="InputDataSaver.cs" />
     <Compile Include="IsDataFullChecker.cs" />
     <Compile Include="PathSolution.cs" />
     <Compile Include="Program.cs" />

@@ -34,9 +34,11 @@ namespace Планирование_химического_процесса
             this.Реакции = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -62,12 +64,17 @@ namespace Планирование_химического_процесса
             this.button2 = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.treeView2 = new System.Windows.Forms.TreeView();
+            this.label3 = new System.Windows.Forms.Label();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.button12 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.button8 = new System.Windows.Forms.Button();
             this.listBox5 = new System.Windows.Forms.ListBox();
@@ -80,29 +87,22 @@ namespace Планирование_химического_процесса
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.button9 = new System.Windows.Forms.Button();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.listBox6 = new System.Windows.Forms.ListBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
-            this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.button11 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.ColumnProcessNum1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnReactionName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnReactionFormula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.treeView1 = new System.Windows.Forms.TreeView();
-            this.label3 = new System.Windows.Forms.Label();
-            this.treeView2 = new System.Windows.Forms.TreeView();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.ColumnProcessNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ColumnSubstances = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button11 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.Реакции.SuspendLayout();
@@ -115,6 +115,7 @@ namespace Планирование_химического_процесса
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -130,7 +131,6 @@ namespace Планирование_химического_процесса
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -194,6 +194,13 @@ namespace Планирование_химического_процесса
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Редактировать вещество SO2";
             // 
+            // textBox10
+            // 
+            this.textBox10.Location = new System.Drawing.Point(6, 63);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(151, 22);
+            this.textBox10.TabIndex = 4;
+            // 
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(6, 86);
@@ -222,6 +229,13 @@ namespace Планирование_химического_процесса
             this.groupBox6.TabIndex = 4;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Новое вещество";
+            // 
+            // textBox11
+            // 
+            this.textBox11.Location = new System.Drawing.Point(6, 52);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(151, 22);
+            this.textBox11.TabIndex = 4;
             // 
             // button3
             // 
@@ -490,6 +504,41 @@ namespace Планирование_химического_процесса
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Выберите реакцию";
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.treeView2);
+            this.tabPage7.Controls.Add(this.label3);
+            this.tabPage7.Controls.Add(this.treeView1);
+            this.tabPage7.Location = new System.Drawing.Point(4, 25);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(785, 394);
+            this.tabPage7.TabIndex = 2;
+            this.tabPage7.Text = "Проверка полноты знаний";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // treeView2
+            // 
+            this.treeView2.Location = new System.Drawing.Point(408, 63);
+            this.treeView2.Name = "treeView2";
+            this.treeView2.Size = new System.Drawing.Size(274, 204);
+            this.treeView2.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(23, 27);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 16);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "label3";
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(23, 63);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(274, 204);
+            this.treeView1.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.tabControl2);
@@ -555,6 +604,13 @@ namespace Планирование_химического_процесса
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(432, 150);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Химическое вещество";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 380;
             // 
             // groupBox10
             // 
@@ -686,6 +742,15 @@ namespace Планирование_химического_процесса
             this.groupBox13.Text = "Добавить начальное вещество";
             this.groupBox13.Enter += new System.EventHandler(this.groupBox13_Enter);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 295);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(51, 16);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Масса:";
+            // 
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(6, 338);
@@ -743,6 +808,14 @@ namespace Планирование_химического_процесса
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Реакции";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 16);
+            this.label5.TabIndex = 1;
+            // 
             // dataGridView4
             // 
             this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -756,6 +829,27 @@ namespace Планирование_химического_процесса
             this.dataGridView4.RowTemplate.Height = 24;
             this.dataGridView4.Size = new System.Drawing.Size(474, 267);
             this.dataGridView4.TabIndex = 0;
+            // 
+            // ColumnProcessNum1
+            // 
+            this.ColumnProcessNum1.HeaderText = "Шаг";
+            this.ColumnProcessNum1.MinimumWidth = 6;
+            this.ColumnProcessNum1.Name = "ColumnProcessNum1";
+            this.ColumnProcessNum1.Width = 75;
+            // 
+            // ColumnReactionName
+            // 
+            this.ColumnReactionName.HeaderText = "Идентификатор";
+            this.ColumnReactionName.MinimumWidth = 6;
+            this.ColumnReactionName.Name = "ColumnReactionName";
+            this.ColumnReactionName.Width = 125;
+            // 
+            // ColumnReactionFormula
+            // 
+            this.ColumnReactionFormula.HeaderText = "Формула реакции";
+            this.ColumnReactionFormula.MinimumWidth = 6;
+            this.ColumnReactionFormula.Name = "ColumnReactionFormula";
+            this.ColumnReactionFormula.Width = 250;
             // 
             // groupBox14
             // 
@@ -781,102 +875,6 @@ namespace Планирование_химического_процесса
             this.dataGridView3.TabIndex = 0;
             this.dataGridView3.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView3_CellContentClick);
             // 
-            // textBox10
-            // 
-            this.textBox10.Location = new System.Drawing.Point(6, 63);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(151, 22);
-            this.textBox10.TabIndex = 4;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(6, 52);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(151, 22);
-            this.textBox11.TabIndex = 4;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Controls.Add(this.treeView2);
-            this.tabPage7.Controls.Add(this.label3);
-            this.tabPage7.Controls.Add(this.treeView1);
-            this.tabPage7.Location = new System.Drawing.Point(4, 25);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(785, 394);
-            this.tabPage7.TabIndex = 2;
-            this.tabPage7.Text = "Проверка полноты знаний";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // button11
-            // 
-            this.button11.Location = new System.Drawing.Point(829, 502);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(167, 68);
-            this.button11.TabIndex = 0;
-            this.button11.Text = "Создать план химического процесса";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 295);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(51, 16);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Масса:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 29);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(0, 16);
-            this.label5.TabIndex = 1;
-            // 
-            // ColumnProcessNum1
-            // 
-            this.ColumnProcessNum1.HeaderText = "Шаг";
-            this.ColumnProcessNum1.MinimumWidth = 6;
-            this.ColumnProcessNum1.Name = "ColumnProcessNum1";
-            this.ColumnProcessNum1.Width = 75;
-            // 
-            // ColumnReactionName
-            // 
-            this.ColumnReactionName.HeaderText = "Идентификатор";
-            this.ColumnReactionName.MinimumWidth = 6;
-            this.ColumnReactionName.Name = "ColumnReactionName";
-            // 
-            // ColumnReactionFormula
-            // 
-            this.ColumnReactionFormula.HeaderText = "Формула реакции";
-            this.ColumnReactionFormula.MinimumWidth = 6;
-            this.ColumnReactionFormula.Name = "ColumnReactionFormula";
-            this.ColumnReactionFormula.Width = 250;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Location = new System.Drawing.Point(23, 63);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(274, 204);
-            this.treeView1.TabIndex = 0;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 27);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 16);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "label3";
-            // 
-            // treeView2
-            // 
-            this.treeView2.Location = new System.Drawing.Point(408, 63);
-            this.treeView2.Name = "treeView2";
-            this.treeView2.Size = new System.Drawing.Size(274, 204);
-            this.treeView2.TabIndex = 3;
-            // 
             // ColumnProcessNum
             // 
             this.ColumnProcessNum.HeaderText = "Шаг процесса";
@@ -891,12 +889,15 @@ namespace Планирование_химического_процесса
             this.ColumnSubstances.Name = "ColumnSubstances";
             this.ColumnSubstances.Width = 330;
             // 
-            // Column1
+            // button11
             // 
-            this.Column1.HeaderText = "Химическое вещество";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 380;
+            this.button11.Location = new System.Drawing.Point(829, 502);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(167, 68);
+            this.button11.TabIndex = 0;
+            this.button11.Text = "Создать план химического процесса";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
             // 
             // Form1
             // 
@@ -906,6 +907,7 @@ namespace Планирование_химического_процесса
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Планирование химического процесса";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -925,6 +927,8 @@ namespace Планирование_химического_процесса
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
@@ -942,8 +946,6 @@ namespace Планирование_химического_процесса
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            this.tabPage7.ResumeLayout(false);
-            this.tabPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }

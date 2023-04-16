@@ -539,6 +539,19 @@ namespace Планирование_химического_процесса
         {
             ChemicalSubstanceStorage storage = new ChemicalSubstanceStorage(substances);
             ChemicalReactionStorage re = new ChemicalReactionStorage(reactions);
+            InputDataSaver inputDataSaver = new InputDataSaver(inputReactants, inputProducts);
+            inputProducts = inputDataSaver.LoadTargetSubstances();
+            inputReactants = inputDataSaver.LoadStartSubstances();
+            foreach (var prod in inputProducts)
+            {
+                dataGridView2.Rows.Add(prod.Substance.SubstanceName, prod.Substance.MolarMass, prod.Substance.Mass);
+            }
+
+            foreach (var react in inputReactants)
+            {
+                dataGridView1.Rows.Add(react.Substance.SubstanceName);
+            }
+
             reactions = re.Load();
             substances = storage.Load();
             ClearAndFillListBox1();
@@ -573,6 +586,11 @@ namespace Планирование_химического_процесса
         {
             try
             {
+                if (!checkIsDataFull())
+                {
+                    MessageBox.Show("Проверьте полноту знаний");
+                    return;
+                }
                 var ChemicalPathFinder = new ChemicalPathFinder(reactions);
                 var Solution = ChemicalPathFinder.FindPathsToSubstances(inputReactants.ToHashSet(), inputProducts.ToHashSet(), substances);
                 dataGridView3.Rows.Clear();
@@ -627,6 +645,12 @@ namespace Планирование_химического_процесса
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            var InputDataSaver = new InputDataSaver(inputReactants, inputProducts);
+            InputDataSaver.Save();
         }
     }
 }
