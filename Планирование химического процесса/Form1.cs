@@ -490,7 +490,7 @@ namespace Планирование_химического_процесса
             inputProducts.Add(new ReactionSubstance(newSubstance, molarMass, 1));
 
             // добавляем строку в dataGridView1
-            dataGridView2.Rows.Add(substanceName, molarMass, mass);
+            dataGridView2.Rows.Add(substanceName, mass);
         }
 
         private void button12_Click(object sender, EventArgs e)
@@ -544,7 +544,7 @@ namespace Планирование_химического_процесса
             inputReactants = inputDataSaver.LoadStartSubstances();
             foreach (var prod in inputProducts)
             {
-                dataGridView2.Rows.Add(prod.Substance.SubstanceName, prod.Substance.MolarMass, prod.Substance.Mass);
+                dataGridView2.Rows.Add(prod.Substance.SubstanceName, prod.Substance.Mass);
             }
 
             foreach (var react in inputReactants)
@@ -651,6 +651,11 @@ namespace Планирование_химического_процесса
         {
             var InputDataSaver = new InputDataSaver(inputReactants, inputProducts);
             InputDataSaver.Save();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
